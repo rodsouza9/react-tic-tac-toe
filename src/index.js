@@ -20,7 +20,7 @@ class Board extends React.Component {
 
   render() {
     console.log(this.props);
-    const status = 'Next player: ' + this.props.gameState.player;
+    const status = 'Current player: ' + this.props.gameState.player;
 
 
     return (
@@ -82,6 +82,17 @@ class Game extends React.Component {
     console.log(this.isGameOver(squareId));
   }
 
+  getGameInfo() {
+    var winner = this.checkWin();
+    if (winner === null) {
+      if (this.checkTie()) {
+        return "It's a tie!!";
+      }
+      return "Keep playing";
+    }
+    return this.state.player === 1 ? "Player 0 won!!" : "Player 1 won!!";
+  }
+
   isGameOver() {
     return this.checkTie() || this.checkWin()!==null;
   }
@@ -125,14 +136,14 @@ class Game extends React.Component {
   }
 
   render() {
-
+    const status = 'Game Info: ' + this.getGameInfo();
     return (
       <div className="game">
         <div className="game-board">
           <Board gameState={this.state} playMove={(i) => this.playMove(i)}/>
         </div>
         <div className="game-info">
-          {this.isGameOver()}
+          {status}
         </div>
       </div>
     );
