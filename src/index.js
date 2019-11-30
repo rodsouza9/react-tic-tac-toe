@@ -47,23 +47,23 @@ class Board extends React.Component {
 }
 
 class Game extends React.Component {
-
+  initState = {
+    player: 1,
+    board: {
+      0: null,
+      1: null,
+      2: null,
+      3: null,
+      4: null,
+      5: null,
+      6: null,
+      7: null,
+      8: null,
+    }
+  };
   constructor() {
     super();
-    this.state = {
-      player: 1,
-      board: {
-        0: null,
-        1: null,
-        2: null,
-        3: null,
-        4: null,
-        5: null,
-        6: null,
-        7: null,
-        8: null,
-      }
-    };
+    this.state = this.initState;
   }
 
   playMove(squareId) {
@@ -75,7 +75,7 @@ class Game extends React.Component {
       console.log(this.state.board[squareId] + " has been clicked");
       return;
     }
-    const newState = {...this.state};
+    const newState = JSON.parse(JSON.stringify(this.state));
     newState.board[squareId] = this.state.player === 1 ? "X" : "O";
     newState.player = this.state.player === 1 ? 0 : 1;
     this.setState(newState);
@@ -135,6 +135,10 @@ class Game extends React.Component {
     return null;
   }
 
+  restart() {
+    this.setState(this.initState);
+  }
+
   render() {
     const status = 'Game Info: ' + this.getGameInfo();
     return (
@@ -144,7 +148,9 @@ class Game extends React.Component {
         </div>
         <div className="game-info">
           {status}
+          <button onClick={() => this.restart()} >restart</button>
         </div>
+
       </div>
     );
   }
