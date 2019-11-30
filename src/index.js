@@ -74,6 +74,7 @@ class Game extends React.Component {
     }
     const newState = {...this.state};
     newState.board[squareId] = this.state.player === 1 ? "X" : "O";
+    newState.player = this.state.player === 1 ? 0 : 1;
     this.setState(newState);
   }
 
